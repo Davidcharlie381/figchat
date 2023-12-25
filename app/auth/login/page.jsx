@@ -1,5 +1,5 @@
 import Link from "next/link";
-import {cookies} from "next/headers"
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import Input from "@/app/components/Input";

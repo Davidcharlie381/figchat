@@ -1,5 +1,7 @@
-export default function Heading({text}) {
+export default function Heading({text, className}) {
     return (
-        <div>{text}</div>
+        <h2 className={`text-[13px] font-roboto font-extrabold tracking-[0.52px] ${className}`}>
+        {text}
+      </h2>
     )
 }

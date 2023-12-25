@@ -7,11 +7,12 @@ export const metadata = {
   description: "Chat for the Millenials",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ modal, children }) {
   return (
     <html lang="en">
       <body className={`${comfortaa.variable} ${roboto.variable}`} >
         <main className="md:hidden">
+          {modal}
           {children}
         </main>
         <h1 className="hidden md:block text-3xl font-semibold text-center">

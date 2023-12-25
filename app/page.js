@@ -12,11 +12,11 @@ export default function Home() {
   }
 
   const logout = async () => {
-    "use server"
-    cookies().delete("user")
-    redirect("/auth/register")
-    revalidatePath("/")
-  }
+    "use server";
+    cookies().delete("user");
+    redirect("/auth/register");
+    revalidatePath("/");
+  };
 
   return (
     <>
@@ -26,10 +26,12 @@ export default function Home() {
       >
         feed
       </Link>
-      <Link href="/auth/register">Register</Link>
-      <Link href="/auth/login">Log in</Link>
-      <form action={logout}>
-        <Button text="LOG OUT" className="w-full p-[18px] rounded-md" />
+      <div className="mx-auto text-center flex justify-center gap-10 mb-5">
+        <Link href="/auth/register">Register</Link>
+        <Link href="/auth/login">Log in</Link>
+      </div>
+      <form action={logout} className="flex justify-center">
+        <Button text="LOG OUT" className="w-4/5 mx-auto p-[18px] rounded-md" />
       </form>
     </>
   );
