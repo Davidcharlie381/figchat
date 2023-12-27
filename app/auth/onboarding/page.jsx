@@ -8,15 +8,19 @@ import Button from "@/app/components/Button";
 import { OnboardForm } from "@/app/components/Form";
 
 const Onboard = async () => {
-  const user = cookies().get("user");
+  const userCookie = cookies().get("user");
 
-  if (!user) {
+  if (!userCookie) {
     redirect("/auth/register");
-  } else if (user) {
+  } else if (userCookie && userCookie.value) {
+    const user = JSON.parse(userCookie.value);
+
     if (user.username) {
       redirect("/");
     }
   }
+
+
 
   return (
     <main className="mx-auto max-w-xl px-4">

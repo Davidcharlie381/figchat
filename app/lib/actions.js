@@ -6,27 +6,32 @@ import User from "@/server/models/userModel";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+const api =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3000/api"
+    : process.env.API_URI;
+
 export const create = async (prevState, formdata) => {
   const email = formdata.get("email");
   const password = formdata.get("password");
 
   try {
-    const userExists = await User.findOne({ email }).select("-password");
-    if (userExists) {
-      return { type: "error", message: "User already exists" };
-    }
-
-    const user = User({
-      email,
-      password,
+    const res = await fetch(`${api}/auth/register`, {
+      method: "POST",
+      body: JSON.stringify({ email, password }),
     });
 
-    await user.save();
+    const data = await res.json();
 
-    cookies().set("user", JSON.stringify(user));
-    return { type: "success", message: "User created successfully" };
+    if (data.user) {
+      cookies().set("user", JSON.stringify(data.user));
+      return { type: "success", message: "User created successfully" };
+    } else if (data.message) {
+      return { type: "error", message: data.message };
+    }
   } catch (err) {
     console.error("error:", err);
+    return { type: "error", message: "Couldn't create user." };
   }
 };
 
@@ -47,28 +52,34 @@ export const login = async (prevState, formdata) => {
     return { type: "error", message: "No user found" };
   } catch (err) {
     console.log("Error:", err);
+    return { type: "error", message: "Something went wrong..." };
   }
-
-  revalidatePath("/auth/login");
 };
 
 export const createUsername = async (prevState, formdata) => {
-  const userEmail = cookies().get("user").email;
+  const userCookie = cookies().get("user");
+  const { email } = JSON.parse(userCookie?.value);
+
   const username = formdata.get("username");
 
   try {
-    const user = await User.findOne({ userEmail });
+    const res = await fetch(`${api}/api/onboard`, {
+      method: "POST",
+      body: JSON.stringify({ username, email }),
+    });
 
-    if (!user?.username) {
-      user.username = username;
-      await user.save();
+    const data = await res.json();
 
-      cookies().set("user", JSON.stringify(user));
+    if (data.user) {
+      cookies().set("user", JSON.stringify(data.user));
       return { type: "success", message: "Username created successfully" };
+    } else if (data.message) {
+      console.error("Error:", err);
+      return { type: "error", message: data.message };
     }
-    return { type: "error", message: "Couldn't update username" };
   } catch (err) {
     console.log("Error:", err);
+    return { type: "error", message: "Something went wrong..." };
   }
-  revalidatePath("/auth/onboarding");
+  // revalidatePath("/auth/onboarding");
 };

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import {cookies} from "next/headers"
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import Input from "@/app/components/Input";
@@ -8,14 +8,16 @@ import Button from "@/app/components/Button";
 import { RegisterForm } from "@/app/components/Form";
 
 const Register = async () => {
+  const userCookie = cookies().get("user");
 
-  const user = cookies().get("user");
 
-  if (user) {
-    if (user.username) {
+  if (userCookie && userCookie.value) {
+    const user = userCookie ? JSON.parse(userCookie?.value) : null;
+
+    if (user?.username) {
       redirect("/");
     }
-    redirect("/auth/onboarding")
+    redirect("/auth/onboarding");
   }
 
   return (
