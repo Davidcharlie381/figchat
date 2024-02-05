@@ -6,29 +6,35 @@ import User from "@/server/models/userModel";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-const api =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:3000/api"
-    : process.env.API_URI;
+// const api =
+//   process.env.NODE_ENV === "development"
+//     ? "http://localhost:3000/api"
+//     : process.env.API_URI;
+
 
 export const create = async (prevState, formdata) => {
   const email = formdata.get("email");
   const password = formdata.get("password");
 
+  // console.log(email, password)
+
   try {
-    const res = await fetch(`${api}/auth/register`, {
+
+    const res = await fetch(`http://localhost:3000/api/auth/register`, {
       method: "POST",
-      body: JSON.stringify({ email, password }),
-    });
+      body: JSON.stringify({email, password})
+    })
 
-    const data = await res.json();
+    const data = await res.json()
 
-    if (data.user) {
-      cookies().set("user", JSON.stringify(data.user));
-      return { type: "success", message: "User created successfully" };
-    } else if (data.message) {
-      return { type: "error", message: data.message };
-    }
+    console.log(data)
+
+    // if (data.user) {
+    //   cookies().set("user", JSON.stringify(data.user));
+    //   return { type: "success", message: "User created successfully" };
+    // } else if (data.message) {
+    //   return { type: "error", message: data.message };
+    // }
   } catch (err) {
     console.error("error:", err);
     return { type: "error", message: "Couldn't create user." };
@@ -70,13 +76,15 @@ export const createUsername = async (prevState, formdata) => {
 
     const data = await res.json();
 
-    if (data.user) {
-      cookies().set("user", JSON.stringify(data.user));
-      return { type: "success", message: "Username created successfully" };
-    } else if (data.message) {
-      console.error("Error:", err);
-      return { type: "error", message: data.message };
-    }
+console.log(data)
+
+    // if (data.user) {
+    //   cookies().set("user", JSON.stringify(data.user));
+    //   return { type: "success", message: "Username created successfully" };
+    // } else if (data.message) {
+    //   console.error("Error:", err);
+    //   return { type: "error", message: data.message };
+    // }
   } catch (err) {
     console.log("Error:", err);
     return { type: "error", message: "Something went wrong..." };

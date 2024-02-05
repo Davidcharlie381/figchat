@@ -1,22 +1,31 @@
-import { cookies } from "next/headers";
+"use client";
+
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Button from "./components/Button";
-import { revalidatePath } from "next/cache";
+import { useUserContext } from "@/contexts/UserContext/UserContext";
+import { useAlertContext } from "@/contexts/AlertContext/AlertContext";
 
 export default function Home() {
-  const user = cookies().get("user");
+  const { dispatchAlert } = useAlertContext();
 
-  if (!user) {
-    redirect("/auth/register");
-  }
+  const {
+    userState: { user },
+    dispatchUser,
+  } = useUserContext();
 
-  const logout = async () => {
-    "use server";
-    cookies().delete("user");
-    redirect("/auth/register");
-    revalidatePath("/");
-  };
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/auth/login");
+      dispatchAlert({
+        type: "SHOW_ALERT",
+        payload: { type: "warning", message: "You must be logged in" },
+      });
+    }
+  }, [user]);
 
   return (
     <>
@@ -30,9 +39,17 @@ export default function Home() {
         <Link href="/auth/register">Register</Link>
         <Link href="/auth/login">Log in</Link>
       </div>
-      <form action={logout} className="flex justify-center">
-        <Button text="LOG OUT" className="w-4/5 mx-auto p-[18px] rounded-md" />
-      </form>
+      <div className="flex justify-center">
+        {user && (
+          <Button
+            onClick={() => dispatchUser({ type: "LOG_OUT" })}
+            text="LOG OUT"
+            className="w-4/5 mx-auto p-[18px] rounded-md"
+          >
+            LOG OUT
+          </Button>
+        )}
+      </div>
     </>
   );
 }

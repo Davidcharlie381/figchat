@@ -1,9 +1,15 @@
 "use client";
 
-import { useFormStatus } from "react-dom";
+import { useAlertContext } from "@/contexts/AlertContext/AlertContext";
 
-export default function Button({ className, black, text }) {
-  const { pending } = useFormStatus();
+export default function Button({ onClick, children, className, black, text }) {
+
+
+  // const { alertState, dispatchAlert } = useAlertContext();
+
+  const handleClick = () => {
+    
+  }
 
   return (
     <button
@@ -12,9 +18,11 @@ export default function Button({ className, black, text }) {
           ? "bg-white text-black border-2 border-black"
           : "bg-black text-white"
       } ${className}`}
-      disabled={pending}
+      // disabled={pending}
+      onClick={onClick}
     >
-      {pending ? "Loading..." : text}
+      {/* {pending ? "Loading..." : text} */}
+      {children}
     </button>
   );
 }
