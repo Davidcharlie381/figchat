@@ -1,13 +1,15 @@
+"use client"
+
 import "./globals.css";
 import { roboto, comfortaa } from "./ui/font";
 import Alert from "./components/Alert";
 import AlertProvider from "@/contexts/AlertContext/AlertContext";
 import UserProvider from "@/contexts/UserContext/UserContext";
 
-export const metadata = {
-  title: "Figchat",
-  description: "Chat for the Millenials",
-};
+// export const metadata = {
+//   title: "Figchat",
+//   description: "Chat for the Millenials",
+// };
 
 export default async function RootLayout({ modal, children }) {
   return (
