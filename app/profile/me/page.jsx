@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image";
 import userImage from "../../../public/images/display-pic.png";
 import Button from "@/app/components/Button";
