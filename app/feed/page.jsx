@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link";
 import Heading from "@/app/components/Heading";
 import DiscoverPost from "../components/Discover/DiscoverPost";

@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image";
 import image from "@/public/images/post.png"
 import PostBar from "@/app/components/Post/PostBar";

@@ -1,3 +1,5 @@
+"use client"
+
 import Heading from "@/app/components/Heading";
 import Input from "@/app/components/Input";
 import Link from "next/link";

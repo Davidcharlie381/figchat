@@ -1,3 +1,5 @@
+"use client"
+
 import Modal from "@/app/components/Modal";
 import Image from "next/image";
 import image from "@/public/images/post.png";
