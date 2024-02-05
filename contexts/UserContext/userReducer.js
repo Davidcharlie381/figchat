@@ -1,9 +1,13 @@
-"use client"
+"use client";
 
 export const userReducer = (state, action) => {
   switch (action.type) {
     case "SET_USER":
-      localStorage.setItem("user", JSON.stringify(action.payload));
+      if (typeof window !== "undefined") {
+        // Access localStorage here
+        localStorage.setItem("user", JSON.stringify(action.payload));
+      }
+
       return {
         ...state,
         user: action.payload,
@@ -24,7 +28,11 @@ export const userReducer = (state, action) => {
         isError: action.payload,
       };
     case "LOG_OUT":
-      localStorage.removeItem("user");
+      if (typeof window !== "undefined") {
+        // Access localStorage here
+        localStorage.removeItem("user");
+      }
+
       return {
         ...state,
         isLoggedIn: false,
