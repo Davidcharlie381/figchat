@@ -1,5 +1,7 @@
 "use client";
 
+// import react from "react"
+
 export const userReducer = (state, action) => {
   switch (action.type) {
     case "SET_USER":

@@ -9,9 +9,10 @@ const { Provider } = UserContext;
 const UserProvider = ({ children }) => {
   const [userState, dispatchUser] = useReducer(userReducer, {
     user:
-      typeof window !== undefined
-        ? JSON.parse(localStorage.getItem("user")) || null
-        : null,
+      // typeof window !== undefined
+      //   ? JSON.parse(localStorage.getItem("user")) || null
+      //   : null,
+      null,
     isLoggedIn: false,
     isLoading: false,
     isError: false,

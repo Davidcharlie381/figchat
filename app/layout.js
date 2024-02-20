@@ -1,7 +1,7 @@
 "use client"
 
 import "./globals.css";
-import { roboto, comfortaa } from "./ui/font";
+// import { roboto, comfortaa } from "./ui/font";
 import Alert from "./components/Alert";
 import AlertProvider from "@/contexts/AlertContext/AlertContext";
 import UserProvider from "@/contexts/UserContext/UserContext";
@@ -11,10 +11,12 @@ import UserProvider from "@/contexts/UserContext/UserContext";
 //   description: "Chat for the Millenials",
 // };
 
+// ${comfortaa.variable} ${roboto.variable}
+
 export default async function RootLayout({ modal, children }) {
   return (
     <html lang="en">
-      <body className={`${comfortaa.variable} ${roboto.variable}`}>
+      <body className={``}>
         <AlertProvider>
           <UserProvider>
             <main className="md:hidden">

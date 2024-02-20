@@ -52,10 +52,13 @@ export default function Login() {
         body: JSON.stringify(FormData),
       });
 
+      console.log(res)
+
       const result = await res.json();
 
       if (res.ok) {
         dispatchUser({ type: "SET_USER", payload: result.data });
+        // localStorage.setItem("user", JSON.stringify(result.data));
         dispatchAlert({
           type: "SHOW_ALERT",
           payload: { type: "success", message: result.message },
