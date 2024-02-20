@@ -7,9 +7,9 @@ import { useState, useEffect } from "react";
 import Input from "@/app/components/Input";
 import Back from "@/app/ui/Back";
 import Button from "@/app/components/Button";
-import { LoginForm } from "@/app/components/Form";
 import { useAlertContext } from "@/contexts/AlertContext/AlertContext";
 import { useUserContext } from "@/contexts/UserContext/UserContext";
+import CONFIG from "@/config";
 
 export default function Login() {
   const [FormData, setFormData] = useState({
@@ -42,32 +42,30 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      // const res = await fetch(`${process.env.API_URL}/api/v1/auth/login`, {
-      //   method: "POST",
-      //   headers: {
-      //     Accept: "application/json",
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(FormData),
-      // });
+      const res = await fetch(`${CONFIG.api_url}/api/v1/auth/login`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(FormData),
+      });
 
-      // console.log(res)
+      const result = await res.json();
 
-      // const result = await res.json();
-
-      // if (res.ok) {
-      //   dispatchUser({ type: "SET_USER", payload: result.data });
-      //   // localStorage.setItem("user", JSON.stringify(result.data));
-      //   dispatchAlert({
-      //     type: "SHOW_ALERT",
-      //     payload: { type: "success", message: result.message },
-      //   });
-      //   router.push("/");
-      // } else {
-      //   throw new Error(result.error);
-      // }
-      console.log(process.env.API_URL);
+      if (res.ok) {
+        dispatchUser({ type: "SET_USER", payload: result.data });
+        // localStorage.setItem("user", JSON.stringify(result.data));
+        dispatchAlert({
+          type: "SHOW_ALERT",
+          payload: { type: "success", message: result.message },
+        });
+        router.push("/");
+      } else {
+        throw new Error(result.error);
+      }
     } catch (error) {
       console.log(error);
       dispatchUser({ type: "SET_ERROR", payload: error.message });

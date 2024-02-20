@@ -2,8 +2,6 @@
 
 # files
 
-/app/auth/onboarding
-/app/profile
 
 # dependencies
 /node_modules

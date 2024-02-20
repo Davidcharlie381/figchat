@@ -10,6 +10,7 @@ import Back from "@/app/ui/Back";
 import Button from "@/app/components/Button";
 import { useUserContext } from "@/contexts/UserContext/UserContext";
 import { useAlertContext } from "@/contexts/AlertContext/AlertContext";
+import CONFIG from "@/config";
 
 const Register = () => {
   const [FormData, setFormData] = useState({
@@ -22,7 +23,7 @@ const Register = () => {
     userState: { user, isLoggedIn, isLoading, isError },
     dispatchUser,
   } = useUserContext();
-  const { alertState, dispatchAlert } = useAlertContext();
+  const { dispatchAlert } = useAlertContext();
 
   const router = useRouter();
 
@@ -44,7 +45,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`${process.env.API_URL}/api/v1/auth/register`, {
+      const res = await fetch(`${CONFIG.api_url}/api/v1/auth/register`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -61,7 +62,7 @@ const Register = () => {
           type: "SHOW_ALERT",
           payload: { type: "success", message: result.message },
         });
-        router.push("/")
+        router.push("/auth/onboarding");
       } else {
         throw new Error(result.error);
       }
